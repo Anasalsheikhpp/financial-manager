@@ -1246,7 +1246,8 @@ function smartSplit(income){
   const savAmt=remaining-emgAmt;
   result.savings=savAmt;
   const MM2=String(activeMonth+1).padStart(2,'0');
-  const pfx=`${activeYear}-${MM2}-`;
+  const pfx=`${activeYear}-${MM2}-
+`;
   const currentMonthData = loadData(); 
   const allDays=Object.entries(currentMonthData.days).filter(([k])=>k.startsWith(pfx)).map(([,v])=>v);
   const totalObPaid=allDays.reduce((s,v)=>s+(v.obShare||0),0)+result.obShare;
