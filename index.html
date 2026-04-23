@@ -1229,18 +1229,41 @@ let data=loadData();
 //  Priority: 1-Obligations 2-DailyExp 3-Emergency 4-Savings 5-Entertainment
 // ════════════════════════════════════════
 function smartSplit(income){
+  const todayStr = getTodayStr();
+  // فلترة الالتزامات التي تم إنشاؤها اليوم أو قبله فقط
+  const activeObs = OBLIGATIONS.filter(o => !o.createdAt || o.createdAt <= todayStr);
+  const currentTotalOb = activeObs.reduce((s,o)=>s+o.amount,0);
+  
   const daysInMonth=new Date(activeYear,activeMonth+1,0).getDate();
-  const dailyOb=TOTAL_OB/daysInMonth; // daily share of monthly obligations
+  const dailyOb=currentTotalOb/daysInMonth; 
 
   let result={income, obShare:0, expense:0, emergency:0, savings:0, entertainment:0, isLow:false};
 
-  // 1. Obligations (daily share)
   result.obShare=Math.min(income,Math.round(dailyOb));
-
-  // 2. Daily expense
   let remaining=income-result.obShare;
   if(remaining<=0){result.isLow=true;result.obShare=income;return result;}
 
+  result.expense=Math.min(remaining,SETTINGS.dailyExp);
+  remaining-=result.expense;
+  if(remaining<=0){result.isLow=true;return result;}
+
+  const emgAmt=Math.round(remaining*(SETTINGS.emgPct/100));
+  result.emergency=emgAmt;
+  const savAmt=remaining-emgAmt;
+  result.savings=savAmt;
+
+  const MM2=String(activeMonth+1).padStart(2,'0');
+  const pfx=`${activeYear}-${MM2}-`;
+  const currentMonthData = loadData(); 
+  const allDays=Object.entries(currentMonthData.days).filter(([k])=>k.startsWith(pfx)).map(([,v])=>v);
+  const totalObPaid=allDays.reduce((s,v)=>s+(v.obShare||0),0)+result.obShare;
+  
+  if(totalObPaid>currentTotalOb){
+    const surplus=totalObPaid-currentTotalOb;
+    result.entertainment=Math.round(surplus*(SETTINGS.entPct/100));
+  }
+  return result;
+}
   result.expense=Math.min(remaining,SETTINGS.dailyExp);
   remaining-=result.expense;
 
@@ -1683,24 +1706,12 @@ function render(){
   document.getElementById('dt-ent').textContent=fmt(c.totalEnt);
 
   const netPos=Math.max(c.totalOb,0);
+  const todayStr = getTodayStr();
   document.getElementById('ob-list').innerHTML=OBLIGATIONS.map(ob=>{
-    const ratio=Math.min(netPos/TOTAL_OB,1);
+    const isFuture = ob.createdAt && ob.createdAt > todayStr;
+    const netPos=Math.max(c.totalOb,0);
+    const ratio=isFuture ? 0 : Math.min(netPos/TOTAL_OB,1);
     const covered=Math.floor(ob.amount*ratio);
-    const rem=ob.amount-covered;
-    const p=Math.round((covered/ob.amount)*100);
-    const done=p>=100;
-    return `<div class="ob-card" style="border:1px solid ${done?'rgba(34,211,165,0.25)':'rgba(248,113,113,0.15)'}">
-      <div class="ob-hd">
-        <div class="ob-name"><span>${ob.icon}</span><span>${ob.label}</span></div>
-        <div class="ob-amounts"><span style="color:var(--green);font-weight:700">${fmt(covered)}</span><span style="color:var(--muted)"> / ${fmt(ob.amount)}</span></div>
-      </div>
-      <div class="ob-bar-bg"><div class="ob-bar-fill" style="width:${p}%;background:${done?'linear-gradient(90deg,var(--green),#10b981)':'linear-gradient(90deg,var(--red),var(--yellow))'}"></div></div>
-      <div class="ob-ft">
-        <span style="color:${done?'var(--green)':'var(--muted)'}">${done?'✅ اكتمل':'⏳ متبقي '+fmt(rem)}</span>
-        <span style="color:${done?'var(--green)':'var(--muted)'};font-weight:700">${p}%</span>
-      </div>
-    </div>`;
-  }).join('');
 
   // Report tab - يتحدث عند فتح التبويب عبر renderReport()
 
@@ -2163,7 +2174,7 @@ function saveObligationForm(){
   const editId=document.getElementById('ob-edit-id').value;
   if(!label||!amount||amount<=0){alert('أدخل الاسم والمبلغ');return;}
   if(editId){const idx=OBLIGATIONS.findIndex(o=>o.id===editId);if(idx!==-1)OBLIGATIONS[idx]={id:editId,label,amount,icon:selectedObIcon};}
-  else{OBLIGATIONS.push({id:'ob_'+Date.now(),label,amount,icon:selectedObIcon});}
+  else{OBLIGATIONS.push({id:'ob_'+Date.now(),label,amount,icon:selectedObIcon,createdAt:getTodayStr()});}
   saveObligations();renderObMgrList();resetObForm();
 }
 function deleteObligation(id){
