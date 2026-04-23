@@ -42,9 +42,6 @@ body{
   direction:rtl;color:var(--text);
   padding-bottom:100px;
 }
-
-
-/* ── INSTALL BANNER ── */
 #install-banner{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;
   background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:14px 16px;
   align-items:center;gap:10px;box-shadow:0 -4px 20px rgba(0,0,0,0.5);}
@@ -64,9 +61,405 @@ body{
 #ios-guide .ig-num{background:#7c3aed;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
 #ios-guide .ig-txt{font-size:13px;color:#c4b5fd;}
 #ios-guide .ig-close{width:100%;margin-top:10px;padding:12px;background:rgba(255,255,255,0.1);border:none;color:#fff;border-radius:12px;font-size:14px;cursor:pointer;font-family:inherit;}
-
-
-/* ── HEADER ── */
 .header{
-  background:linear-gradient(180deg,rgba(124,58,237,0.12) 0%,transparent 100%);
+  padding:20px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  background:linear-gradient(to bottom,rgba(124,58,237,0.1) 0%,transparent 100%);
   border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.header h1{font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.month-nav{display:flex;align-items:center;gap:10px;background:var(--bg2);padding:6px 12px;border-radius:20px;border:1px solid var(--border);}
+.month-nav button{background:none;border:none;color:var(--text);font-size:18px;cursor:pointer;padding:0 5px;}
+.month-nav select{background:none;border:none;color:var(--yellow);font-weight:700;font-size:15px;cursor:pointer;outline:none;text-align:center;}
+.main-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px;margin-top:-10px;}
+.stat-card{background:var(--bg2);padding:12px 8px;border-radius:var(--radius);border:1px solid var(--border);text-align:center;display:flex;flex-direction:column;gap:4px;}
+.stat-card .label{font-size:10px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:4px;}
+.stat-card .val{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;}
+.stat-card .unit{font-size:9px;color:var(--muted);}
+.stat-card.total .val{color:var(--green);}
+.stat-card.save .val{color:var(--blue);}
+.stat-card.emg .val{color:var(--orange);}
+.stat-card.rem .val{color:var(--yellow);}
+.progress-container{padding:0 16px;margin-bottom:20px;}
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;position:relative;}
+.progress-fill{height:100%;background:linear-gradient(to left,var(--green),var(--blue));width:0%;transition:width 0.5s ease;}
+.progress-info{display:flex;justify-content:space-between;font-size:11px;margin-top:6px;color:var(--muted);}
+.nav-tabs{display:grid;grid-template-columns:repeat(4,1fr);padding:0 16px;gap:8px;margin-bottom:20px;}
+.nav-btn{background:var(--bg2);border:1px solid var(--border);color:var(--muted);padding:10px 5px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:0.2s;}
+.nav-btn.active{background:rgba(124,58,237,0.15);border-color:#7c3aed;color:#a78bfa;}
+.nav-btn i{font-size:16px;}
+.tab-content{padding:0 16px;display:none;}
+.tab-content.active{display:block;}
+.card{background:var(--bg2);border-radius:20px;border:1px solid var(--border);padding:20px;margin-bottom:16px;}
+.card-title{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--purple);}
+.input-group{margin-bottom:16px;}
+.input-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:8px;}
+.input-wrapper{position:relative;display:flex;align-items:center;}
+.input-wrapper input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:14px 16px;color:#fff;font-size:16px;font-weight:600;outline:none;transition:0.2s;}
+.input-wrapper input:focus{border-color:#7c3aed;box-shadow:0 0 0 4px rgba(124,58,237,0.1);}
+.input-wrapper .suffix{position:absolute;left:16px;color:var(--muted);font-size:12px;}
+.btn-primary{width:100%;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 15px rgba(124,58,237,0.3);transition:0.2s;}
+.btn-primary:active{transform:scale(0.98);opacity:0.9;}
+.btn-danger-outline{width:100%;background:none;border:1px solid var(--red-dim);color:var(--red);padding:12px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;margin-top:20px;}
+.history-list{display:flex;flex-direction:column;gap:10px;}
+.history-item{background:var(--surface);padding:12px 16px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid transparent;transition:0.2s;}
+.history-item:hover{border-color:var(--border);}
+.history-info{display:flex;flex-direction:column;gap:2px;}
+.history-date{font-size:11px;color:var(--muted);}
+.history-amount{font-size:14px;font-weight:700;color:var(--green);}
+.history-del{color:var(--red);background:none;border:none;padding:8px;cursor:pointer;font-size:16px;opacity:0.5;}
+.history-del:hover{opacity:1;}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;}
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.report-card{background:var(--surface);padding:16px;border-radius:16px;border:1px solid var(--border);}
+.report-card .label{font-size:11px;color:var(--muted);margin-bottom:4px;}
+.report-card .val{font-size:18px;font-weight:800;}
+.report-card.income .val{color:var(--green);}
+.report-card.expense .val{color:var(--red);}
+.report-card.save .val{color:var(--blue);}
+.report-card.emg .val{color:var(--orange);}
+.report-card.inv .val{color:var(--purple);}
+.report-card.fun .val{color:var(--pink);}
+.settings-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);}
+.settings-item:last-child{border:none;}
+.settings-label{font-size:13px;}
+.settings-input{background:var(--bg);border:1px solid var(--border);color:#fff;padding:6px 10px;border-radius:8px;width:60px;text-align:center;font-weight:700;}
+.tomorrow-card{background:rgba(251,191,36,0.05);border:1px dashed var(--yellow);border-radius:16px;padding:12px;margin-top:16px;display:flex;align-items:center;gap:12px;}
+.tomorrow-icon{font-size:20px;}
+.tomorrow-info{flex:1;}
+.tomorrow-label{font-size:10px;color:var(--yellow);margin-bottom:2px;}
+.tomorrow-val{font-size:14px;font-weight:800;}
+@media (max-width:360px){
+  .stat-card .val{font-size:14px;}
+  .stat-card .label{font-size:9px;}
+}
+</style>
+</head>
+<body>
+<div id="install-banner">
+  <div class="ib-icon">✨</div>
+  <div class="ib-text">
+    <div class="ib-title">ثبت التطبيق على هاتفك</div>
+    <div class="ib-sub">للوصول السريع وإدارة ميزانيتك بسهولة</div>
+  </div>
+  <button class="ib-btn" id="install-btn">تثبيت</button>
+  <button class="ib-close" id="install-close">×</button>
+</div>
+<div id="ios-guide">
+  <div class="ig-title">تثبيت التطبيق على iPhone</div>
+  <div class="ig-step">
+    <div class="ig-num">1</div>
+    <div class="ig-txt">اضغط على زر المشاركة <span style="font-size:18px">⎋</span> في المتصفح</div>
+  </div>
+  <div class="ig-step">
+    <div class="ig-num">2</div>
+    <div class="ig-txt">اختر "إضافة إلى الشاشة الرئيسية" أو "Add to Home Screen"</div>
+  </div>
+  <button class="ig-close" id="ios-guide-close">فهمت</button>
+</div>
+<header class="header">
+  <h1>💰 مدير دخلي الذكي</h1>
+  <div class="month-nav">
+    <button onclick="changeMonth(-1)">‹</button>
+    <select id="month-select" onchange="render()"></select>
+    <button onclick="changeMonth(1)">›</button>
+  </div>
+</header>
+<section class="main-stats">
+  <div class="stat-card total">
+    <div class="label"><span>📈</span> إجمالي الدخل</div>
+    <div class="val" id="stat-total">0</div>
+    <div class="unit">ريال</div>
+  </div>
+  <div class="stat-card save">
+    <div class="label"><span>🏦</span> الادخار</div>
+    <div class="val" id="stat-save">0</div>
+    <div class="unit">ريال</div>
+  </div>
+  <div class="stat-card emg">
+    <div class="label"><span>🚨</span> الطوارئ</div>
+    <div class="val" id="stat-emg">0</div>
+    <div class="unit">ريال</div>
+  </div>
+  <div class="stat-card rem">
+    <div class="label"><span>🏆</span> متبقي</div>
+    <div class="val" id="stat-rem">0</div>
+    <div class="unit">ريال</div>
+  </div>
+</section>
+<div class="progress-container">
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="progress-info">
+    <span id="progress-text">توزيع الدخل</span>
+    <span id="progress-pct">0%</span>
+  </div>
+</div>
+<nav class="nav-tabs">
+  <button class="nav-btn active" onclick="showTab('daily')"><i>📥</i> اليومي</button>
+  <button class="nav-btn" onclick="showTab('fixed')"><i>📋</i> الالتزامات</button>
+  <button class="nav-btn" onclick="showTab('report')"><i>📊</i> التقرير</button>
+  <button class="nav-btn" onclick="showTab('settings')"><i>🗓</i> الأشهر</button>
+</nav>
+<main>
+  <div id="tab-daily" class="tab-content active">
+    <div class="card">
+      <div class="card-title">💡 أدخل دخل اليوم وسنوزعه تلقائياً</div>
+      <div class="input-group">
+        <label>دخل اليوم</label>
+        <div class="input-wrapper">
+          <input type="number" id="inp-amount" placeholder="0">
+          <span class="suffix">ريال</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>مصروف اليوم</label>
+        <div class="input-wrapper">
+          <input type="number" id="inp-daily-exp-main" placeholder="0">
+          <span class="suffix">ريال</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>تاريخ اليوم</label>
+        <div class="input-wrapper">
+          <input type="date" id="inp-date">
+        </div>
+      </div>
+      <button class="btn-primary" id="save-btn" onclick="handleSave()">💾 حفظ وتوزيع تلقائي</button>
+    </div>
+    <div class="tomorrow-card">
+      <div class="tomorrow-icon">🎯</div>
+      <div class="tomorrow-info">
+        <div class="tomorrow-label">المقترح لبكرة</div>
+        <div class="tomorrow-val" id="tomorrow-val">0 ريال</div>
+      </div>
+      <div style="font-size:9px;color:var(--muted);text-align:left;">لتغطية الالتزامات + المصروف</div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">📅 آخر المدخلات</div>
+      <div id="history-list" class="history-list"></div>
+    </div>
+    <button class="btn-danger-outline" onclick="clearMonth()">🗑️ حذف جميع بيانات الشهر</button>
+  </div>
+  <div id="tab-fixed" class="tab-content">
+    <div class="card">
+      <div class="card-title">📝 الالتزامات الشهرية</div>
+      <div id="fixed-list"></div>
+      <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:20px;">
+        <div class="input-group">
+          <label>اسم الالتزام (إيجار، فاتورة...)</label>
+          <div class="input-wrapper"><input type="text" id="fixed-name" placeholder="مثلاً: فاتورة الكهرباء"></div>
+        </div>
+        <div class="input-group">
+          <label>المبلغ الشهري</label>
+          <div class="input-wrapper">
+            <input type="number" id="fixed-amount" placeholder="0">
+            <span class="suffix">ريال</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="addFixed()">➕ إضافة التزام</button>
+      </div>
+    </div>
+  </div>
+  <div id="tab-report" class="tab-content">
+    <div class="card">
+      <div class="card-title">📊 ملخص الشهر الحالي</div>
+      <div class="report-grid">
+        <div class="report-card income"><div class="label">الدخل</div><div class="val" id="rep-income">0</div></div>
+        <div class="report-card expense"><div class="label">الالتزامات</div><div class="val" id="rep-fixed">0</div></div>
+        <div class="report-card save"><div class="label">الادخار (20%)</div><div class="val" id="rep-save">0</div></div>
+        <div class="report-card emg"><div class="label">طوارئ (10%)</div><div class="val" id="rep-emg">0</div></div>
+        <div class="report-card inv"><div class="label">استثمار (10%)</div><div class="val" id="rep-inv">0</div></div>
+        <div class="report-card fun"><div class="label">ترفيه/مصاريف</div><div class="val" id="rep-fun">0</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-settings" class="tab-content">
+    <div class="card">
+      <div class="card-title">⚙️ إعدادات التوزيع (%)</div>
+      <div class="settings-item"><span class="settings-label">الادخار</span><input type="number" class="settings-input" id="cfg-save" value="20"></div>
+      <div class="settings-item"><span class="settings-label">الطوارئ</span><input type="number" class="settings-input" id="cfg-emg" value="10"></div>
+      <div class="settings-item"><span class="settings-label">الاستثمار</span><input type="number" class="settings-input" id="cfg-inv" value="10"></div>
+      <div class="settings-item"><span class="settings-label">مصروف يومي مستهدف</span><input type="number" class="settings-input" style="width:80px" id="cfg-daily" value="50"></div>
+      <button class="btn-primary" style="margin-top:16px;" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+    </div>
+  </div>
+</main>
+<script>
+let activeYear=new Date().getFullYear();
+let activeMonth=new Date().getMonth()+1;
+const SETTINGS_KEY="fin_settings";
+let SETTINGS={savePct:20,emgPct:10,invPct:10,dailyExp:50};
+function loadSettings(){
+const s=localStorage.getItem(SETTINGS_KEY);
+if(s) SETTINGS=JSON.parse(s);
+document.getElementById('cfg-save').value=SETTINGS.savePct;
+document.getElementById('cfg-emg').value=SETTINGS.emgPct;
+document.getElementById('cfg-inv').value=SETTINGS.invPct;
+document.getElementById('cfg-daily').value=SETTINGS.dailyExp;
+}
+function saveSettings(){
+SETTINGS.savePct=parseInt(document.getElementById('cfg-save').value)||0;
+SETTINGS.emgPct=parseInt(document.getElementById('cfg-emg').value)||0;
+SETTINGS.invPct=parseInt(document.getElementById('cfg-inv').value)||0;
+SETTINGS.dailyExp=parseInt(document.getElementById('cfg-daily').value)||0;
+localStorage.setItem(SETTINGS_KEY,JSON.stringify(SETTINGS));
+render();
+alert("تم حفظ الإعدادات");
+}
+function initMonthSelect(){
+const sel=document.getElementById('month-select');
+sel.innerHTML="";
+for(let i=1;i<=12;i++){
+const opt=document.createElement('option');
+opt.value=i;
+opt.textContent=new Date(2024,i-1).toLocaleString('ar-EG',{month:'long'});
+if(i===activeMonth) opt.selected=true;
+sel.appendChild(opt);
+}
+}
+function changeMonth(dir){
+activeMonth+=dir;
+if(activeMonth>12){activeMonth=1;activeYear++;}
+if(activeMonth<1){activeMonth=12;activeYear--;}
+document.getElementById('month-select').value=activeMonth;
+render();
+}
+function showTab(id){
+document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById('tab-'+id).classList.add('active');
+event.currentTarget.classList.add('active');
+}
+function getMonthData(){
+const key=`data_${activeYear}_${activeMonth}`;
+const d=localStorage.getItem(key);
+return d?JSON.parse(d):{income:[],fixed:[]};
+}
+function saveMonthData(data){
+const key=`data_${activeYear}_${activeMonth}`;
+localStorage.setItem(key,JSON.stringify(data));
+}
+function handleSave(){
+const amt=parseFloat(document.getElementById('inp-amount').value)||0;
+const dailyExp=parseFloat(document.getElementById('inp-daily-exp-main').value)||0;
+const dateVal=document.getElementById('inp-date').value;
+if(amt<=0 && dailyExp<=0) return;
+const data=getMonthData();
+data.income.push({id:Date.now(),amt,dailyExp,date:dateVal||new Date().toISOString().split('T')[0]});
+saveMonthData(data);
+document.getElementById('inp-amount').value="";
+document.getElementById('inp-daily-exp-main').value="";
+render();
+}
+function deleteIncome(id){
+const data=getMonthData();
+data.income=data.income.filter(i=>i.id!==id);
+saveMonthData(data);
+render();
+}
+function addFixed(){
+const name=document.getElementById('fixed-name').value;
+const amt=parseFloat(document.getElementById('fixed-amount').value)||0;
+if(!name||amt<=0) return;
+const data=getMonthData();
+data.fixed.push({id:Date.now(),name,amt});
+saveMonthData(data);
+document.getElementById('fixed-name').value="";
+document.getElementById('fixed-amount').value="";
+render();
+}
+function deleteFixed(id){
+const data=getMonthData();
+data.fixed=data.fixed.filter(f=>f.id!==id);
+saveMonthData(data);
+render();
+}
+function clearMonth(){
+if(confirm("هل أنت متأكد من حذف جميع بيانات هذا الشهر؟")){
+saveMonthData({income:[],fixed:[]});
+render();
+}
+}
+function smartSplit(totalIncome,fixedTotal){
+const result={save:0,emergency:0,investment:0,leisure:0,isLow:false};
+let remaining=totalIncome-fixedTotal;
+if(remaining<=0){result.isLow=true;return result;}
+const saveAmt=Math.round(remaining*(SETTINGS.savePct/100));
+result.save=saveAmt;
+remaining-=saveAmt;
+if(remaining<=0) return result;
+const emgAmt=Math.round(remaining*(SETTINGS.emgPct/100));
+result.emergency=emgAmt;
+remaining-=emgAmt;
+if(remaining<=0) return result;
+const invAmt=Math.round(remaining*(SETTINGS.invPct/100));
+result.investment=invAmt;
+remaining-=invAmt;
+result.leisure=remaining;
+return result;
+}
+function render(){
+activeMonth=parseInt(document.getElementById('month-select').value);
+const data=getMonthData();
+let totalInc=0;
+let totalDailySpent=0;
+data.income.forEach(i=>{totalInc+=i.amt;totalDailySpent+=i.dailyExp;});
+let fixedTotal=0;
+data.fixed.forEach(f=>fixedTotal+=f.amt);
+const split=smartSplit(totalInc,fixedTotal);
+document.getElementById('stat-total').textContent=totalInc.toLocaleString();
+document.getElementById('stat-save').textContent=split.save.toLocaleString();
+document.getElementById('stat-emg').textContent=split.emergency.toLocaleString();
+document.getElementById('stat-rem').textContent=(split.leisure-totalDailySpent).toLocaleString();
+const progress=totalInc>0?Math.min(100,Math.round(((fixedTotal+split.save+split.emergency+split.investment)/totalInc)*100)):0;
+document.getElementById('progress-fill').style.width=progress+"%";
+document.getElementById('progress-pct').textContent=progress+"%";
+const hist=document.getElementById('history-list');
+hist.innerHTML="";
+[...data.income].reverse().forEach(i=>{
+const div=document.createElement('div');
+div.className='history-item';
+div.innerHTML=`<div class="history-info"><div class="history-date">${i.date}</div><div class="history-amount">${i.amt>0?'+'+i.amt:''} ${i.dailyExp>0?'-'+i.dailyExp:''} ريال</div></div><button class="history-del" onclick="deleteIncome(${i.id})">×</button>`;
+hist.appendChild(div);
+});
+const flist=document.getElementById('fixed-list');
+flist.innerHTML="";
+data.fixed.forEach(f=>{
+const div=document.createElement('div');
+div.className='history-item';
+div.innerHTML=`<div class="history-info"><div class="history-date">التزام</div><div class="history-amount">${f.name}: ${f.amt} ريال</div></div><button class="history-del" onclick="deleteFixed(${f.id})">×</button>`;
+flist.appendChild(div);
+});
+document.getElementById('rep-income').textContent=totalInc.toLocaleString();
+document.getElementById('rep-fixed').textContent=fixedTotal.toLocaleString();
+document.getElementById('rep-save').textContent=split.save.toLocaleString();
+document.getElementById('rep-emg').textContent=split.emergency.toLocaleString();
+document.getElementById('rep-inv').textContent=split.investment.toLocaleString();
+document.getElementById('rep-fun').textContent=split.leisure.toLocaleString();
+const today=new Date();
+const daysInMonth=new Date(activeYear,activeMonth,0).getDate();
+const remainingDays=daysInMonth-today.getDate()+1;
+if(remainingDays>0 && activeMonth===(new Date().getMonth()+1)){
+const dailySuggested=Math.max(0,Math.round((split.leisure-totalDailySpent)/remainingDays));
+document.getElementById('tomorrow-val').textContent=dailySuggested+" ريال";
+}else{
+document.getElementById('tomorrow-val').textContent="---";
+}
+}
+window.onload=()=>{
+loadSettings();
+initMonthSelect();
+document.getElementById('inp-date').value=new Date().toISOString().split('T')[0];
+render();
+};
+if('serviceWorker' in navigator){
+window.addEventListener('load',()=>{
+navigator.serviceWorker.register('./sw.js').then(reg=>console.log('SW registered')).catch(err=>console.log('SW failed',err));
+});
+}
+</script>
+</body>
+</html>
